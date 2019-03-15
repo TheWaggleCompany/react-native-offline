@@ -79,6 +79,17 @@ function handleDismissActionsFromQueue(
   };
 }
 
+function filterOldActions(state, action) {
+  let actionsToKeep = state.actionQueue.filter(a => {
+    let find = action.payload.find(appt => appt.id === a.meta.appointment_id && appt.appointment_status.id !== 5);
+    return find;
+  })
+  return {
+    ...state,
+    actionQueue: actionsToKeep
+  };
+}
+
 export default function(
   state: NetworkState = initialState,
   action: *,
@@ -89,6 +100,8 @@ export default function(
         ...state,
         isConnected: action.payload,
       };
+    case 'FILTER_OLD_ACTIONS':
+      return filterOldActions(state, action);
     case actionTypes.FETCH_OFFLINE_MODE:
       return handleOfflineAction(state, action);
     case actionTypes.REMOVE_FROM_ACTION_QUEUE:
