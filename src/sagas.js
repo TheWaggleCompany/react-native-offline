@@ -130,7 +130,8 @@ function* handleConnectivityChange(
   if (hasInternetAccess && actionQueue.length > 0) {
     // eslint-disable-next-line
     for (const action of actionQueue) {
-      yield put(action);
+      let newAction = { ...action }
+      yield put(newAction);
     }
   }
 }
