@@ -79,9 +79,10 @@ function handleDismissActionsFromQueue(
   };
 }
 
+// removes actions from the queue that no longer correspond to any appointments in the list
 function filterOldActions(state, action) {
   let actionsToKeep = state.actionQueue.filter(a => {
-    let find = action.payload.find(appt => appt.id === a.meta.appointment_id && appt.appointment_status.id !== 5);
+    let find = action.payload.find(appt => appt.id === a.meta.appointment_id);
     return find;
   })
   return {
